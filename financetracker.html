@@ -5,303 +5,298 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finance Tracker</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-route/1.8.2/angular-route.min.js"></script>
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #007bff, #00b5e2, #6a1b9a);
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color:white;
+            text-align: center;
             margin: 0;
             padding: 0;
+        }
+
+        .navbar {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            justify-content: space-around;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px;
+        }
+
+        .navbar a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-            width: 450px;
-            color: white;
-            text-align: center;
-            animation: fadeIn 1s ease-out;
-            backdrop-filter: blur(10px);
+            padding: 20px;
         }
 
-        h1 {
-            font-size: 32px;
-            margin-bottom: 20px;
+        /* Updated Dashboard Style */
+        .dashboard {
+    margin-top: 20px;
+    background-image: url('https://images.pexels.com/photos/4386324/pexels-photo-4386324.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    color: white;
+}s
+
+        .summary {
+            font-size: 20px;
+            margin: 15px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+
+        .finance-info {
+            font-size: 22px;
+            line-height: 1.8;
+        }
+
+        .finance-info span {
+            font-weight: bold;
+            color: #f8b400;
+        }
+
+        .amount {
+            font-size: 18px;
+            color: #f8b400;
             font-weight: bold;
         }
 
-        input, button, select {
-            padding: 12px;
-            font-size: 16px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            width: 80%;
-            margin-bottom: 15px;
-            outline: none;
-            transition: all 0.3s;
+        /* Progress Bar */
+        .progress-container {
+            margin-top: 20px;
+            text-align: center;
         }
 
-        input:focus, select:focus {
-            border-color: #ffffff;
+        .progress-container p {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .progress-bar {
+            width: 80%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            margin: auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #f8b400;
+            border-radius: 10px;
+            transition: width 0.5s ease-in-out;
+        }
+
+        input, button, select {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+            border-radius: 5px;
+            outline: none;
         }
 
         button {
             background-color: #f8b400;
-            border: none;
             color: white;
+            border: none;
             cursor: pointer;
-            transition: background-color 0.3s ease-in-out;
         }
 
         button:hover {
             background-color: #f58f00;
         }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 20px 0;
-            max-height: 250px;
-            overflow-y: auto;
-        }
-
-        li {
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 12px;
-            margin: 8px 0;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        li:hover {
-            transform: translateX(8px);
-        }
-
-        li button {
-            background-color: #e74c3c;
-            border: none;
-            color: white;
-            padding: 6px 12px;
-            font-size: 14px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        li button:hover {
-            background-color: #c0392b;
-        }
-
-        h3 {
-            font-size: 20px;
-            margin-top: 20px;
-        }
-
-        .currency {
-            font-size: 18px;
-            font-weight: bold;
-            color: #f8b400;
-        }
-
-        .chart-container {
-            margin-top: 30px;
+        .input-field {
             width: 100%;
-            max-width: 400px;
+            padding: 12px;
+            margin: 10px;
+            border-radius: 5px;
+            font-size: 16px;
         }
 
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .savings {
+            color: #27ae60;
+            font-weight: bold;
         }
     </style>
 </head>
 <body ng-controller="FinanceController">
+
+    <!-- Navigation Menu -->
+    <div class="navbar">
+        <a href="#!/">Dashboard</a>
+        <a href="#!/income">Income</a>
+        <a href="#!/expenses">Expenses</a>
+    </div>
+
+    <!-- This is where different pages will be loaded -->
     <div class="container">
+        <ng-view></ng-view>
+    </div>
+
+    <!-- Dashboard Page -->
+    <script type="text/ng-template" id="dashboard.html">
         <h1>Finance Tracker</h1>
 
-        <!-- Currency Selector -->
-        <div>
-            <label for="currency">Select Currency:</label>
-            <select ng-model="selectedCurrency" ng-change="updateCurrency()">
-                <option value="USD">USD - Dollar</option>
-                <option value="INR">INR - Rupee</option>
-                <option value="EUR">EUR - Euro</option>
-            </select>
+        <div class="dashboard">
+            <div class="summary">
+                <h2>Total Income: <span class="amount">{{ formatCurrency(totalIncome) }}</span></h2>
+                <h2>Total Expenses: <span class="amount">{{ formatCurrency(totalExpenses) }}</span></h2>
+                <h2>Monthly Savings: <span class="savings">{{ formatCurrency(totalIncome - totalExpenses) }}</span></h2>
+            </div>
+
+            <!-- Savings Progress Bar -->
+            <div class="progress-container">
+                <p>Savings Progress</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" ng-style="{'width': savingsPercentage() + '%'}"></div>
+                </div>
+                <p>{{ savingsPercentage() }}% of income saved</p>
+            </div>
+        </div>
+    </script>
+
+    <!-- Income Page -->
+    <script type="text/ng-template" id="income.html">
+        <h1>Set Your Income</h1>
+        <input class="input-field" type="number" ng-model="incomeAmount" placeholder="Enter income">
+        
+        <!-- Currency Selector in Income Page -->
+        <label for="currency">Select Currency:</label>
+        <select id="currency" ng-model="selectedCurrency" ng-change="updateCurrency()">
+            <option value="USD">$ - USD</option>
+            <option value="INR">₹ - INR</option>
+            <option value="EUR">€ - EUR</option>
+        </select>
+
+        <button ng-click="setIncome()">Set Income</button>
+    </script>
+
+    <!-- Expenses Page -->
+    <script type="text/ng-template" id="expenses.html">
+        <h1>Manage Expenses</h1>
+        <input class="input-field" type="number" ng-model="expenseAmount" placeholder="Enter expense">
+        <select class="input-field" ng-model="expenseCategory">
+            <option value="Food">Food</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Utilities">Utilities</option>
+            <option value="Healthcare">Healthcare</option>
+            <option value="Others">Others</option>
+        </select>
+
+        <button ng-click="addExpense()">Add Expense</button>
+
+        <h3>Total Expenses: {{ formatCurrency(totalExpenses) }}</h3>
+
+        <div class="summary">
+            <h2>Saving: <span class="savings">{{ formatCurrency(totalIncome - totalExpenses) }}</span></h2>
         </div>
 
-        <!-- Income Section -->
-        <div>
-            <label for="income">Enter Your Income</label>
-            <input type="number" id="income" ng-model="incomeAmount" placeholder="Enter income" min="0">
-            <button ng-click="setIncome()">Set Income</button>
-        </div>
-
-        <h3>Income: <span class="currency">{{ formattedIncome }}</span></h3>
-
-        <!-- Expense Section -->
-        <div>
-            <label for="expense">Enter Expense</label>
-            <input type="number" id="expense" ng-model="expenseAmount" placeholder="Enter expense" min="0">
-            <select ng-model="expenseCategory">
-                <option value="Food">Food</option>
-                <option value="Entertainment">Entertainment</option>
-                <option value="Utilities">Utilities</option>
-                <option value="Others">Others</option>
-            </select>
-            <button ng-click="addExpense()">Add Expense</button>
-        </div>
-
-        <h3>Expenses:</h3>
         <ul>
             <li ng-repeat="expense in expenses">
-                {{ expense.amount | currency:selectedCurrency }} - {{ expense.category }}
+                {{ formatCurrency(expense.amount) }} - {{ expense.category }}
                 <button ng-click="removeExpense($index)">Remove</button>
             </li>
         </ul>
-
-        <h3>Total Expenses: <span class="currency">{{ formattedExpenses }}</span></h3>
-        <h3>Monthly Savings: <span class="currency">{{ formattedSavings }}</span></h3>
-
-        <!-- Pie Chart for Expense Breakdown -->
-        <div class="chart-container">
-            <canvas id="expenseChart"></canvas>
-        </div>
-    </div>
+    </script>
 
     <script>
-        var app = angular.module('financeApp', []);
+        var app = angular.module('financeApp', ['ngRoute']);
 
-        app.controller('FinanceController', function($scope) {
-            $scope.expenses = [];
-            $scope.totalExpenses = 0;
+        app.config(function($routeProvider) {
+            $routeProvider
+                .when("/", {
+                    templateUrl: "dashboard.html",
+                    controller: "DashboardController"
+                })
+                .when("/income", {
+                    templateUrl: "income.html",
+                    controller: "IncomeController"
+                })
+                .when("/expenses", {
+                    templateUrl: "expenses.html",
+                    controller: "ExpensesController"
+                })
+                .otherwise({
+                    redirectTo: "/"
+                });
+        });
+
+        app.controller('FinanceController', function($scope, $location) {
             $scope.totalIncome = 0;
-            $scope.incomeAmount = 0;
-            $scope.expenseAmount = 0;
+            $scope.totalExpenses = 0;
+            $scope.expenses = [];
             $scope.selectedCurrency = 'USD';
-            $scope.expenseCategory = 'Food';
 
-            // Currency symbols for different currencies
             $scope.currencySymbols = {
                 'USD': '$',
                 'INR': '₹',
                 'EUR': '€'
             };
 
-            // Format the amount based on the selected currency
             $scope.formatCurrency = function(amount) {
                 return $scope.currencySymbols[$scope.selectedCurrency] + amount.toFixed(2);
             };
 
-            // Update currency and refresh all displayed values
             $scope.updateCurrency = function() {
-                $scope.formattedIncome = $scope.formatCurrency($scope.totalIncome);
-                $scope.formattedExpenses = $scope.formatCurrency($scope.totalExpenses);
-                $scope.formattedSavings = $scope.formatCurrency($scope.monthlySavings());
-                $scope.updateChart();
+                // Currency update logic here
             };
 
-            // Set the income and format it
+            $scope.savingsPercentage = function() {
+                return ($scope.totalIncome > 0) ? ((($scope.totalIncome - $scope.totalExpenses) / $scope.totalIncome) * 100) : 0;
+            };
+        });
+
+        app.controller('DashboardController', function($scope) {
+            // No currency selector in the dashboard
+        });
+
+        app.controller('IncomeController', function($scope, $location) {
             $scope.setIncome = function() {
                 if ($scope.incomeAmount) {
-                    $scope.totalIncome = parseFloat($scope.incomeAmount);
-                    $scope.formattedIncome = $scope.formatCurrency($scope.totalIncome);
+                    $scope.$parent.totalIncome = parseFloat($scope.incomeAmount);
+                    $scope.$parent.selectedCurrency = $scope.selectedCurrency; // Set selected currency for dashboard
                     $scope.incomeAmount = '';
-                    $scope.updateSavings();
-                    $scope.updateChart();
+                    $location.path('/expenses');
                 }
             };
+        });
 
-            // Add expense and update total expenses
+        app.controller('ExpensesController', function($scope) {
             $scope.addExpense = function() {
                 if ($scope.expenseAmount) {
-                    $scope.expenses.push({ amount: $scope.expenseAmount, category: $scope.expenseCategory });
-                    $scope.totalExpenses += parseFloat($scope.expenseAmount);
-                    $scope.formattedExpenses = $scope.formatCurrency($scope.totalExpenses);
-                    $scope.updateSavings();
+                    $scope.$parent.expenses.push({
+                        amount: parseFloat($scope.expenseAmount),
+                        category: $scope.expenseCategory
+                    });
+                    $scope.$parent.totalExpenses += parseFloat($scope.expenseAmount);
                     $scope.expenseAmount = '';
-                    $scope.updateChart();
                 }
             };
 
-            // Remove expense and update total expenses
             $scope.removeExpense = function(index) {
-                $scope.totalExpenses -= parseFloat($scope.expenses[index].amount);
-                $scope.expenses.splice(index, 1);
-                $scope.formattedExpenses = $scope.formatCurrency($scope.totalExpenses);
-                $scope.updateSavings();
-                $scope.updateChart();
-            };
-
-            // Calculate monthly savings
-            $scope.monthlySavings = function() {
-                return $scope.totalIncome - $scope.totalExpenses;
-            };
-
-            // Update savings and format them
-            $scope.updateSavings = function() {
-                $scope.formattedSavings = $scope.formatCurrency($scope.monthlySavings());
-            };
-
-            // Update the pie chart when expenses change
-            $scope.updateChart = function() {
-                var categories = $scope.expenses.reduce(function(acc, expense) {
-                    if (!acc[expense.category]) {
-                        acc[expense.category] = 0;
-                    }
-                    acc[expense.category] += expense.amount;
-                    return acc;
-                }, {});
-
-                var labels = Object.keys(categories);
-                var data = Object.values(categories);
-
-                // Destroy the existing chart if it exists
-                if (window.expenseChart) {
-                    window.expenseChart.destroy();
-                }
-
-                var ctx = document.getElementById('expenseChart').getContext('2d');
-                window.expenseChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            data: data,
-                            backgroundColor: ['#f8b400', '#f58f00', '#d44e7f', '#2a9d8f'],
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(tooltipItem) {
-                                        return tooltipItem.label + ': ' + tooltipItem.raw.toFixed(2);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
+                $scope.$parent.totalExpenses -= $scope.$parent.expenses[index].amount;
+                $scope.$parent.expenses.splice(index, 1);
             };
         });
     </script>
+
 </body>
 </html>
